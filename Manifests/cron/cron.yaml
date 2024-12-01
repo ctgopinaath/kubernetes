@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: my-prod-cronjob
+spec:
+  schedule: "*/1 * * * *" 
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: date-writer
+              image: ubuntu:latest # Use a lightweight image for date operations
+              command: ["sh", "-c", "date >> /tmp/date.txt"]
+              volumeMounts:
+                - name: date-storage
+                  mountPath: /tmp
+          restartPolicy: OnFailure
+          volumes:
+            - name: date-storage
+              hostPath:
+                path: /tmp # Replace with a valid host path
+                type: DirectoryOrCreate
