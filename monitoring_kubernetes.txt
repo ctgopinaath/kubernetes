@@ -1,0 +1,136 @@
+# Kubernetes Monitoring Metrics
+
+## 1. Cluster-Level Metrics
+- **Node Resource Utilization**
+  - CPU usage (User, System, Idle)
+  - Memory usage (Allocated, Used, Free)
+  - Disk I/O (Read/Write)
+  - Network I/O (Ingress/Egress)
+- **Node Health**
+  - Node status (Ready, NotReady)
+  - Kubelet health
+  - Disk pressure
+  - Memory pressure
+  - Network pressure
+- **Pod Scheduling**
+  - Pending Pods (indicating resource issues or scheduling delays)
+  - Resources requested vs. allocated (CPU, memory)
+- **Cluster Autoscaling Metrics**
+  - Metrics related to Horizontal Pod Autoscalers (HPA) and Cluster Autoscalers
+
+## 2. Pod Metrics
+- **Pod Health**
+  - Pod status (Running, Pending, Failed)
+  - Pod restarts (indicating crashes)
+- **Pod Resource Utilization**
+  - CPU and Memory usage vs. limits
+  - Disk usage for persistent volumes
+- **Pod Network Metrics**
+  - Network traffic (Ingress/Egress)
+  - Network errors (Dropped packets, latency)
+- **Pod Latency and Request Metrics**
+  - Request rate (throughput)
+  - Latency (response time for requests)
+
+## 3. Container Metrics
+- **Container Resource Utilization**
+  - CPU usage (per container)
+  - Memory usage (per container)
+  - Disk usage (per container)
+- **Container Lifecycle Metrics**
+  - Container restarts (due to failure or crash)
+  - Container start/stop events
+
+## 4. Control Plane Metrics
+- **API Server**
+  - API request rate (requests per second)
+  - API response latency (average, 99th percentile)
+  - 5xx error rates (indicating server errors)
+  - Request duration (average, P99)
+- **Scheduler**
+  - Scheduling latency
+  - Pending pods due to unschedulable conditions
+- **Controller Manager**
+  - Controller queue length (indicating backlog)
+  - Controller latency (latency to reconcile states)
+- **etcd Metrics**
+  - Write/read latency
+  - Leader election (whether there's a leader)
+  - Disk usage
+  - Commit count (rate of change)
+
+## 5. Cluster Network Metrics
+- **Ingress/Egress Traffic**
+  - Total traffic (bytes in/out)
+  - Latency per service
+- **Service and Endpoint Availability**
+  - Service latencies (request durations)
+  - Endpoint reachability
+- **Network Errors**
+  - Dropped packets
+  - Packet loss
+  - Network throughput
+
+## 6. Persistent Storage Metrics
+- **Persistent Volume Usage**
+  - Volume usage (Used, Available)
+  - Persistent Volume Claims (PVCs) status (Bound, Pending)
+- **Disk I/O**
+  - Disk reads/writes (per volume)
+  - Disk latency (per volume)
+
+## 7. Application-Specific Metrics
+- **Custom Application Metrics**
+  - Application-level request rate, error rates, and latency (using Prometheus exporter or custom instrumentation)
+- **Ingress Controller Metrics**
+  - HTTP request rate (requests per second)
+  - Response status codes (2xx, 4xx, 5xx)
+  - Connection count
+
+## 8. Kubernetes Events & Logs
+- **Event Monitoring**
+  - Errors or warnings in event logs (e.g., failed deployments, pod evictions, scaling issues)
+- **Log Aggregation**
+  - Application logs, Kubernetes logs, and system logs for troubleshooting issues
+
+## 9. Security Metrics
+- **RBAC Metrics**
+  - Role and permission errors
+- **Pod Security Policies**
+  - Violations or misconfigurations of security policies (e.g., privilege escalation attempts)
+- **Audit Logs**
+  - Tracking user actions and resource changes for compliance monitoring
+
+## 10. Horizontal Pod Autoscaler (HPA) Metrics
+- **Scaling Events**
+  - HPA trigger conditions (CPU, memory thresholds)
+- **Pod Scaling Frequency**
+  - How often autoscaling triggers (up/down)
+  - Current number of replicas vs. desired replicas
+
+## 11. Alerting & Thresholds
+- **Threshold Exceeding Alerts**
+  - CPU usage over a threshold (e.g., 80%)
+  - Memory usage exceeding limits (e.g., 85%)
+  - Pod restarts more than a defined limit
+  - Node not ready for a prolonged period
+
+## 12. Service Mesh Metrics (if applicable)
+- **Traffic Flow**
+  - Ingress traffic metrics (via Istio, Linkerd)
+- **Circuit Breakers/Retry Metrics**
+  - Errors and retries across services
+- **Latency and Error Rates** between services
+
+## 13. Time Series and Historical Data
+- **Storage and Retention Metrics**
+  - Retention policies for logs and metrics
+  - Database size growth over time (especially for monitoring systems like Prometheus)
+
+## Monitoring Tools:
+- Prometheus (for collecting and querying metrics)
+- Grafana (for visualization of metrics)
+- Kube-state-metrics (for Kubernetes-specific metrics)
+- cAdvisor (for container-level metrics)
+- Fluentd/Elasticsearch/Kibana (EFK stack) or Loki (for log aggregation)
+- Datadog, New Relic, or Sysdig (for managed Kubernetes monitoring)
