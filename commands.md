@@ -1,13 +1,28 @@
-################################################################################
-# KUBERNETES CLUSTER ADMINISTRATION - COMMAND CHEAT SHEET
-# BEGINNER TO ADVANCED
-# ONLY COMMANDS
-################################################################################
+# Kubernetes Cluster Administration Command Reference
 
-############################
-# CLUSTER INFORMATION
-############################
+## Overview
 
+This document provides a comprehensive collection of Kubernetes administration commands covering:
+
+* Cluster Management
+* Control Plane Administration
+* Worker Node Operations
+* Workload Management
+* Networking
+* Storage
+* Security
+* RBAC
+* Troubleshooting
+* Monitoring
+* Backup & Restore
+* Cluster Auditing
+* Advanced Administration
+
+---
+
+# Cluster Information
+
+```bash
 kubectl version
 kubectl version --short
 kubectl cluster-info
@@ -24,11 +39,13 @@ kubectl config view --raw
 kubectl auth can-i '*' '*'
 kubectl auth can-i create pods
 kubectl auth can-i --list
+```
 
-############################
-# NODES
-############################
+---
 
+# Nodes
+
+```bash
 kubectl get nodes
 kubectl get nodes -o wide
 kubectl get nodes -o yaml
@@ -44,20 +61,24 @@ kubectl taint nodes <node> key=value:PreferNoSchedule
 kubectl taint nodes <node> key=value:NoSchedule-
 kubectl label node <node> env=prod
 kubectl get node --show-labels
+```
 
-############################
-# NAMESPACES
-############################
+---
 
+# Namespaces
+
+```bash
 kubectl get ns
 kubectl create ns dev
 kubectl delete ns dev
 kubectl describe ns default
+```
 
-############################
-# PODS
-############################
+---
 
+# Pods
+
+```bash
 kubectl get pods
 kubectl get po
 kubectl get pods -A
@@ -79,11 +100,13 @@ kubectl port-forward pod/<pod> 8080:80
 kubectl attach <pod>
 kubectl top pod
 kubectl top pods -A
+```
 
-############################
-# DEPLOYMENTS
-############################
+---
 
+# Deployments
+
+```bash
 kubectl get deploy
 kubectl get deploy -A
 kubectl describe deploy <deploy>
@@ -96,102 +119,80 @@ kubectl rollout restart deployment/nginx
 kubectl set image deployment/nginx nginx=nginx:latest
 kubectl edit deployment nginx
 kubectl delete deployment nginx
+```
 
-############################
-# REPLICASETS
-############################
+---
 
+# ReplicaSets
+
+```bash
 kubectl get rs
 kubectl describe rs <rs>
 kubectl delete rs <rs>
+```
 
-############################
-# DAEMONSETS
-############################
+---
 
+# DaemonSets
+
+```bash
 kubectl get ds
 kubectl get ds -A
 kubectl describe ds <ds>
 kubectl rollout restart ds <ds>
 kubectl delete ds <ds>
+```
 
-############################
-# STATEFULSETS
-############################
+---
 
+# StatefulSets
+
+```bash
 kubectl get sts
 kubectl describe sts <sts>
 kubectl rollout restart sts <sts>
 kubectl scale sts <sts> --replicas=3
 kubectl delete sts <sts>
+```
 
-############################
-# JOBS
-############################
+---
 
+# Jobs
+
+```bash
 kubectl get jobs
 kubectl describe job <job>
 kubectl delete job <job>
+```
 
-############################
-# CRONJOBS
-############################
+---
 
+# CronJobs
+
+```bash
 kubectl get cronjobs
 kubectl describe cronjob <cronjob>
 kubectl create cronjob hello --image=busybox --schedule="*/1 * * * *"
 kubectl delete cronjob <cronjob>
+```
 
-############################
-# SERVICES
-############################
+---
 
+# Services
+
+```bash
 kubectl get svc
 kubectl get svc -A
 kubectl describe svc <svc>
 kubectl expose deployment nginx --port=80
 kubectl delete svc <svc>
+```
 
-############################
-# ENDPOINTS
-############################
+---
 
-kubectl get ep
-kubectl describe ep <ep>
+# Storage
 
-############################
-# INGRESS
-############################
-
-kubectl get ingress
-kubectl get ingress -A
-kubectl describe ingress <ingress>
-kubectl delete ingress <ingress>
-
-############################
-# CONFIGMAPS
-############################
-
-kubectl get cm
-kubectl describe cm <cm>
-kubectl create cm app-config --from-file=config.properties
-kubectl create cm app-config --from-literal=env=dev
-kubectl delete cm app-config
-
-############################
-# SECRETS
-############################
-
-kubectl get secrets
-kubectl describe secret <secret>
-kubectl create secret generic mysecret --from-literal=user=admin
-kubectl create secret tls tls-secret --cert=tls.crt --key=tls.key
-kubectl delete secret mysecret
-
-############################
-# STORAGE
-############################
-
+```bash
 kubectl get pv
 kubectl get pvc
 kubectl get sc
@@ -200,20 +201,13 @@ kubectl describe pvc <pvc>
 kubectl describe sc <sc>
 kubectl delete pvc <pvc>
 kubectl delete pv <pv>
+```
 
-############################
-# SERVICE ACCOUNTS
-############################
+---
 
-kubectl get sa
-kubectl describe sa default
-kubectl create sa app-sa
-kubectl delete sa app-sa
-
-############################
 # RBAC
-############################
 
+```bash
 kubectl get roles
 kubectl get rolebindings
 kubectl get clusterroles
@@ -222,49 +216,43 @@ kubectl describe role <role>
 kubectl describe clusterrole <clusterrole>
 kubectl auth can-i create pods
 kubectl auth can-i --list
+```
 
-############################
-# NETWORK POLICIES
-############################
+---
 
+# Network Policies
+
+```bash
 kubectl get networkpolicy
 kubectl describe networkpolicy <policy>
+```
 
-############################
-# RESOURCE QUOTA
-############################
+---
 
-kubectl get quota
-kubectl describe quota
+# Events
 
-############################
-# LIMIT RANGE
-############################
-
-kubectl get limitrange
-kubectl describe limitrange
-
-############################
-# EVENTS
-############################
-
+```bash
 kubectl get events
 kubectl get events -A
 kubectl get events --sort-by=.metadata.creationTimestamp
+```
 
-############################
-# METRICS
-############################
+---
 
+# Monitoring
+
+```bash
 kubectl top nodes
 kubectl top pods
 kubectl top pods -A
 kubectl top pod <pod>
+```
 
-############################
-# DEBUGGING
-############################
+---
 
+# Debugging
+
+```bash
 kubectl describe pod <pod>
 kubectl logs <pod>
 kubectl logs -f <pod>
@@ -274,84 +262,25 @@ kubectl debug node/<node>
 kubectl debug pod/<pod>
 kubectl get events
 kubectl get events -A
+```
 
-############################
-# LABELS
-############################
+---
 
-kubectl label pod <pod> env=prod
-kubectl label node <node> env=prod
-kubectl get pods -l env=prod
-kubectl get all -l env=prod
+# ETCD Administration
 
-############################
-# ANNOTATIONS
-############################
-
-kubectl annotate pod <pod> owner=devops
-kubectl get pod <pod> --show-managed-fields
-
-############################
-# SELECTORS
-############################
-
-kubectl get pods -l app=nginx
-kubectl get pods -l app!=nginx
-kubectl get pods -l 'env in (prod,dev)'
-kubectl get pods -l 'env notin (prod)'
-
-############################
-# OUTPUT FORMATS
-############################
-
-kubectl get pods -o wide
-kubectl get pods -o yaml
-kubectl get pods -o json
-kubectl get pods -o name
-kubectl get pods -o custom-columns=NAME:.metadata.name
-kubectl get pods -o jsonpath='{.items[*].metadata.name}'
-
-############################
-# ALL RESOURCES
-############################
-
-kubectl get all
-kubectl get all -A
-
-############################
-# MANIFEST OPERATIONS
-############################
-
-kubectl apply -f file.yaml
-kubectl create -f file.yaml
-kubectl replace -f file.yaml
-kubectl delete -f file.yaml
-kubectl diff -f file.yaml
-kubectl kustomize .
-kubectl apply -k .
-
-############################
-# API EXPLORATION
-############################
-
-kubectl explain pod
-kubectl explain pod.spec
-kubectl explain deployment.spec.template.spec
-
-############################
-# ETCD (CONTROL PLANE NODE)
-############################
-
+```bash
 ETCDCTL_API=3 etcdctl endpoint health
 ETCDCTL_API=3 etcdctl endpoint status
 ETCDCTL_API=3 etcdctl member list
 ETCDCTL_API=3 etcdctl snapshot save backup.db
 ETCDCTL_API=3 etcdctl snapshot status backup.db
+```
 
-############################
-# KUBEADM
-############################
+---
 
+# Kubeadm Administration
+
+```bash
 kubeadm version
 kubeadm config view
 kubeadm token list
@@ -360,69 +289,58 @@ kubeadm certs renew all
 kubeadm upgrade plan
 kubeadm upgrade apply v1.xx.x
 kubeadm reset
+```
 
-############################
-# COMPONENT VERSIONS
-############################
+---
 
+# Component Versions
+
+```bash
 kubectl get nodes -o jsonpath='{.items[*].status.nodeInfo.kubeletVersion}'
 kubectl get nodes -o jsonpath='{.items[*].status.nodeInfo.kubeProxyVersion}'
 kubectl get nodes -o jsonpath='{.items[*].status.nodeInfo.containerRuntimeVersion}'
 kubectl get pods -n kube-system -o wide
 kubectl get componentstatuses
+```
 
-############################
-# CERTIFICATES
-############################
+---
 
+# Certificates
+
+```bash
 kubectl get csr
 kubectl certificate approve <csr>
 kubectl certificate deny <csr>
 kubectl delete csr <csr>
+```
 
-############################
-# CRD
-############################
+---
 
+# CRDs
+
+```bash
 kubectl get crd
 kubectl describe crd <crd>
 kubectl api-resources
+```
 
-############################
-# LEASES
-############################
+---
 
-kubectl get leases -A
+# API Server Health
 
-############################
-# WEBHOOKS
-############################
-
-kubectl get validatingwebhookconfigurations
-kubectl get mutatingwebhookconfigurations
-
-############################
-# API SERVER RAW CALLS
-############################
-
+```bash
 kubectl get --raw='/healthz'
 kubectl get --raw='/livez'
 kubectl get --raw='/readyz'
 kubectl get --raw='/metrics'
 kubectl get --raw='/version'
+```
 
-############################
-# ADVANCED JSONPATH
-############################
+---
 
-kubectl get pods -A -o jsonpath='{.items[*].metadata.name}'
-kubectl get nodes -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}{end}'
-kubectl get pods -o custom-columns=NAME:.metadata.name,IP:.status.podIP
+# Advanced Cluster Audit
 
-############################
-# ADVANCED CLUSTER AUDIT
-############################
-
+```bash
 kubectl get nodes -o yaml
 kubectl get pods -A -o wide
 kubectl get deploy -A
@@ -443,15 +361,14 @@ kubectl get limitrange -A
 kubectl get events -A
 kubectl get crd
 kubectl get apiservices
+```
 
-############################
-# EVERYTHING IN CLUSTER
-############################
+---
 
+# Complete Cluster Inventory
+
+```bash
 kubectl api-resources --verbs=list --namespaced -o name | xargs -n 1 kubectl get --show-kind --ignore-not-found -A
 
 kubectl api-resources --verbs=list --namespaced=false -o name | xargs -n 1 kubectl get --show-kind --ignore-not-found
-
-################################################################################
-# END OF CLUSTER ADMIN COMMANDS
-################################################################################
+```
